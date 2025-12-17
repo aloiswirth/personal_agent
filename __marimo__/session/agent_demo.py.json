@@ -1,0 +1,236 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.18.4"
+  },
+  "cells": [
+    {
+      "id": "MJUe",
+      "code_hash": "6b644a0c5f072b7f6cdcc56cdb3f7d01",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"configuration\">\u2699\ufe0f Configuration</h2>\n<span class=\"paragraph\">Make sure you have set your <code>OPENAI_API_KEY</code> in a <code>.env</code> file.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Kclp",
+      "code_hash": "997c6092614d06e536c3ae30dcaadbbb",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"chat-with-the-agent\">\ud83d\udcac Chat with the Agent</h2>\n<span class=\"paragraph\"><strong>\ud83d\udca1 Tip:</strong> Double-Click inside the text area before typing to avoid triggering marimo keyboard shortcuts.</span>\n<span class=\"paragraph\">Try these example prompts:</span>\n<ul>\n<li>\"Read my email\"</li>\n<li>\"Create a calendar event for the birthday party\"</li>\n<li>\"Show me your decision-making process\"</li>\n<li>\"What tools do you have available?\"</li>\n<li>\"Show me the conversation history\"</li>\n</ul></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ROlb",
+      "code_hash": "b5b802c7630899e03fd97cd681174514",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"demo-instructions\">\ud83c\udfaf Demo Instructions</h2>\n<ol>\n<li><strong>Start simple:</strong> Ask the agent to \"Read my email\"</li>\n<li><strong>Create an event:</strong> Ask it to \"Create a calendar event for the birthday party\"</li>\n<li><strong>Inspect internals:</strong> Try \"Show me your decisions\" or \"Show me the conversation history\"</li>\n<li><strong>Explore tools:</strong> Ask \"What tools do you have?\"</li>\n</ol>\n<span class=\"paragraph\">The agent will use its planning capabilities to decide which tools to use and in what order!</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Hbol",
+      "code_hash": "01987dbb18ff3ae8391f4327dab92efc",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"langchain-agent-demo\">\ud83e\udd16 LangChain Agent Demo</h1>\n<span class=\"paragraph\">This demo showcases a LangChain agent with planning, memory, and custom tools.</span>\n<span class=\"paragraph\"><strong>Features:</strong></span>\n<ul>\n<li>\ud83d\udce7 Email reading tool</li>\n<li>\ud83d\udcc5 Calendar event creation tool</li>\n<li>\ud83e\udde0 Memory display tool</li>\n<li>\ud83d\udd27 Tools introspection</li>\n<li>\ud83d\udcad Decision tracking</li>\n</ul></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "a4533141e3e58c01f7aa555b1c03b1a2",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">\u2705 API Key configured</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "ffc64126d030dac9b306445d343043f2",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "17d79bf80bc1dd868c4983a3558a0d17",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "71f95b252ede8d4b1c597e52a6810cd5",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Xref",
+      "code_hash": "c7b24f6b55b3f51ca78bcfc07a515e5a",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "b23db76a0a0db6abd293242dcf974a0a",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "4e5873e88b1208200eca30b884a4f377",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "RGSE",
+      "code_hash": "2019b5ee6763e9314a83f659122b80dc",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "emfo",
+      "code_hash": "7940d63ba49f9aa80decb9036106ca85",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='emfo-2' random-id='9bee0f83-cf5a-488a-8c1c-1bce9dac8379'><marimo-form data-initial-value='null' data-label='null' data-element-id='&quot;emfo-1&quot;' data-loading='false' data-bordered='true' data-submit-button-label='&quot;Send&quot;' data-submit-button-disabled='false' data-clear-on-submit='false' data-show-clear-button='false' data-clear-button-label='&quot;Clear&quot;' data-should-validate='false'><marimo-ui-element object-id='emfo-1' random-id='023ac392-300c-c710-2755-5b7c7119013a'><marimo-text-area data-initial-value='&quot;&quot;' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;Your message:&lt;/span&gt;&lt;/span&gt;&quot;' data-placeholder='&quot;Ask the agent something... (e.g., &#x27;Read my email and create a calendar event&#x27;)&quot;' data-disabled='false' data-debounce='true' data-full-width='true'></marimo-text-area></marimo-ui-element></marimo-form></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Hstk",
+      "code_hash": "bc11cdb18461fd72ec17c430d782dd34",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h3 id=\"debug-form-value\">\ud83d\udd0d Debug: Form Value</h3>\n<span class=\"paragraph\"><strong>chat_form.value:</strong> <code>'Now show the complete memory\\n'</code></span>\n<span class=\"paragraph\"><strong>Type:</strong> <code>&lt;class 'str'&gt;</code></span>\n<span class=\"paragraph\"><strong>Is submitted:</strong> <code>True</code></span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "nWHF",
+      "code_hash": "c573b6a88093492551facafc944caa10",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">### \ud83e\udd16 Agent Response:</span>\n<span class=\"paragraph\">Here is the complete memory of our conversation so far:</span>\n<ol>\n<li>\n<span class=\"paragraph\"><strong>Human</strong>: Read the last 10 emails and check if there is an invitation for me...</span>\n<ul>\n<li><strong>Time</strong>: December 17, 2025</li>\n</ul>\n</li>\n<li>\n<span class=\"paragraph\"><strong>AI</strong>: I found an invitation in one of the recent emails:</span>\n<ul>\n<li><strong>From</strong>: Qi Cui (<a href=\"&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#113;&#105;&#46;&#99;&#117;&#105;&#64;&#115;&#97;&#112;&#46;&#99;&#111;&#109;\">&#113;&#105;&#46;&#99;&#117;&#105;&#64;&#115;&#97;&#112;&#46;&#99;&#111;&#109;</a>)</li>\n<li><strong>Subject</strong>: Call for Tomorrow</li>\n<li><strong>Date</strong>: December 17, 2025</li>\n<li><strong>Time</strong>: 3 PM</li>\n</ul>\n</li>\n<li>\n<span class=\"paragraph\"><strong>Human</strong>: Great. Please create the calendar entry...</span>\n<ul>\n<li><strong>Time</strong>: December 17, 2025</li>\n</ul>\n</li>\n<li>\n<span class=\"paragraph\"><strong>AI</strong>: The calendar entry for the call with Qi Cui has been successfully created:</span>\n<ul>\n<li><strong>Event</strong>: Call with Qi Cui</li>\n<li><strong>Date</strong>: December 17, 2025</li>\n<li><strong>Time</strong>: 3:00 PM</li>\n</ul>\n</li>\n<li>\n<span class=\"paragraph\"><strong>Human</strong>: Please show me which tools do you have...</span>\n<ul>\n<li><strong>Time</strong>: December 17, 2025</li>\n</ul>\n</li>\n<li>\n<span class=\"paragraph\"><strong>AI</strong>: Here are the tools I have access to:</span>\n<ul>\n<li><strong>read_email</strong>: Reads real emails from your GMX account.</li>\n<li><strong>create_calendar_event</strong>: Creates a calendar event in your GMX calendar.</li>\n<li><strong>show_decisions</strong>: Displays all decisions and reasoning steps I've taken.</li>\n<li><strong>show_memory</strong>: Displays the conversation memory/history.</li>\n</ul>\n</li>\n<li>\n<span class=\"paragraph\"><strong>Human</strong>: Which decisions did you take so far?</span>\n<ul>\n<li><strong>Time</strong>: December 17, 2025</li>\n</ul>\n</li>\n<li>\n<span class=\"paragraph\"><strong>AI</strong>: Here are the decisions I have taken so far:</span>\n<ul>\n<li><strong>Read Emails</strong>: Checked the last 10 emails for invitations.</li>\n<li><strong>Create Calendar Event</strong>: Created a calendar entry for the call with Qi Cui.</li>\n</ul>\n</li>\n<li>\n<span class=\"paragraph\"><strong>Human</strong>: Now show the complete memory...</span>\n<ul>\n<li><strong>Time</strong>: December 17, 2025</li>\n</ul>\n</li>\n</ol>\n<span class=\"paragraph\">If you have any more questions or need assistance, feel free to ask!</span></span>"
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "\n\n\u001b[1m> Entering new AgentExecutor chain...\u001b[0m\n\u001b[32;1m\u001b[1;3m\nInvoking: `show_memory` with `{}`\n\n\n\u001b[0m\u001b[36;1m\u001b[1;3m\ud83d\udcad Conversation Memory:\n\n1. Human: Read the last 10 emails and check if there is an invitation for me...\n   Time: 2025-12-17 10:13:32.766910\n\n2. AI: I found an invitation in one of the recent emails:\n\n- **From:** Qi Cui (qi.cui@sap.com)\n- **Subject:...\n   Time: 2025-12-17 10:13:36.768726\n\n3. Human: \nGreat. Please create the calendar entry...\n   Time: 2025-12-17 10:14:40.759338\n\n4. AI: The calendar entry for the call with Qi Cui has been successfully created:\n\n- **Event:** Call with Q...\n   Time: 2025-12-17 10:14:44.898002\n\n5. Human: Please show me which tools do you have\n...\n   Time: 2025-12-17 10:15:57.002357\n\n6. AI: Here are the tools I have access to:\n\n1. **read_email**: Reads real emails from your GMX account. By...\n   Time: 2025-12-17 10:16:01.009305\n\n7. Human: Which decisions did you take so far?\n...\n   Time: 2025-12-17 10:16:35.356764\n\n8. AI: Here are the decisions I have taken so far:\n\n1. **Read Emails**: I read the last 10 emails from your...\n   Time: 2025-12-17 10:16:38.851298\n\n9. Human: Now show the complete memory\n...\n   Time: 2025-12-17 10:17:15.831588\n\n\u001b[0m\u001b[32;1m\u001b[1;3mHere is the complete memory of our conversation so far:\n\n1. **Human**: Read the last 10 emails and check if there is an invitation for me...\n   - **Time**: December 17, 2025\n\n2. **AI**: I found an invitation in one of the recent emails:\n   - **From**: Qi Cui (qi.cui@sap.com)\n   - **Subject**: Call for Tomorrow\n   - **Date**: December 17, 2025\n   - **Time**: 3 PM\n\n3. **Human**: Great. Please create the calendar entry...\n   - **Time**: December 17, 2025\n\n4. **AI**: The calendar entry for the call with Qi Cui has been successfully created:\n   - **Event**: Call with Qi Cui\n   - **Date**: December 17, 2025\n   - **Time**: 3:00 PM\n\n5. **Human**: Please show me which tools do you have...\n   - **Time**: December 17, 2025\n\n6. **AI**: Here are the tools I have access to:\n   - **read_email**: Reads real emails from your GMX account.\n   - **create_calendar_event**: Creates a calendar event in your GMX calendar.\n   - **show_decisions**: Displays all decisions and reasoning steps I've taken.\n   - **show_memory**: Displays the conversation memory/history.\n\n7. **Human**: Which decisions did you take so far?\n   - **Time**: December 17, 2025\n\n8. **AI**: Here are the decisions I have taken so far:\n   - **Read Emails**: Checked the last 10 emails for invitations.\n   - **Create Calendar Event**: Created a calendar entry for the call with Qi Cui.\n\n9. **Human**: Now show the complete memory...\n   - **Time**: December 17, 2025\n\nIf you have any more questions or need assistance, feel free to ask!\u001b[0m\n\n\u001b[1m> Finished chain.\u001b[0m\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "iLit",
+      "code_hash": "40a9619168bc4fc42d0bcea6f0cd0b38",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"current-state\">\ud83d\udcca Current State</h2>\n<ul>\n<li><strong>Emails Read:</strong> 1</li>\n<li><strong>Calendar Events:</strong> 1</li>\n<li><strong>Decisions Made:</strong> 2</li>\n<li><strong>Conversation Turns:</strong> 10</li>\n</ul></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ZHCJ",
+      "code_hash": "0c130e73109837575afffcd2b61721da",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><em>No calendar events created yet</em></span></span>"
+          }
+        }
+      ],
+      "console": []
+    }
+  ]
+}
