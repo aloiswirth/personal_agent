@@ -1,10 +1,8 @@
 # /// script
-# requires-python = ">=3.14"
+# requires-python = ">=3.12"
 # dependencies = [
 #     "caldav==2.2.3",
 #     "icalendar==6.3.2",
-#     "langchain-openai==1.1.7",
-#     "langchain==1.2.3",
 #     "marimo>=0.19.0",
 #     "pydantic==2.12.5",
 #     "python-dotenv==1.2.1",
@@ -12,14 +10,6 @@
 #     "pyzmq>=27.1.0",
 # ]
 # ///
-"""LangChain Agent Demo with Marimo
-
-This interactive notebook demonstrates a LangChain agent with:
-- Planning and decision-making capabilities
-- Conversation memory
-- Custom tools for email reading and calendar management
-- Introspection tools to display agent internals
-"""
 
 import marimo
 
@@ -29,7 +19,32 @@ app = marimo.App(width="full")
 
 @app.cell
 def _():
+    """LangChain-free Agent Demo v2 with Marimo
+
+    This reworked notebook avoids deprecated LangChain internals and implements
+    a lightweight, deterministic agent controller that calls the previously
+    implemented tools (email reading, calendar creation, introspection).
+
+    Notes:
+    - To keep compatibility with newer LangChain versions, this file does not
+      depend on langchain agent classes or prompt helpers.
+    - The "agent" behavior is a small rule-based dispatcher that recognizes a
+      few commands and also supports simple structured commands for creating
+      events or reading a specific number of emails.
+    - Main functionality (read emails, create calendar events, show decisions,
+      show memory, list tools) is preserved.
+
+    Usage examples (type into the chat):
+    - "Read my email"
+    - "read_email|5"        -> reads last 5 emails
+    - "Create an event"    -> the assistant will ask for structured input
+    - "create_event|Title|2025-12-20|18:00|Location|Description"
+    - "Show me your decisions"
+    - "Show me the conversation history"
+    - "What tools do you have?"
+    """
     import marimo as mo
+    from pydantic import BaseModel, Field
     import os
     from datetime import datetime, timedelta
     from typing import Optional, Type, List, Dict, Any
@@ -40,23 +55,32 @@ def _():
     import caldav
     from icalendar import Calendar, Event
     import pytz
-
-    # LangChain imports
-    from langchain.agents import AgentExecutor, create_openai_functions_agent
-    from langchain.memory import ConversationBufferMemory
-    from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
-    from langchain.tools import BaseTool
-    from langchain_openai import ChatOpenAI
-    from langchain.schema import HumanMessage, AIMessage
-    from pydantic import BaseModel, Field
+    import re
 
     # Load environment variables
     load_dotenv("./.env")
 
-    mo.md("""
-    # 🤖 LangChain Agent Demo
+    # Config
+    GMX_EMAIL = os.getenv("GMX_EMAIL", "alois_wirth@gmx.de")
+    GMX_PASSWORD = os.getenv("GMX_PW")
+    GMX_IMAP_SERVER = os.getenv("GMX_IMAP_SERVER", "imap.gmx.net")
+    GMX_IMAP_PORT = int(os.getenv("GMX_IMAP_PORT", "993"))
+    GMX_CALDAV_URL = os.getenv("GMX_CALDAV_URL", f"https://caldav.gmx.net/begenda/dav/{GMX_EMAIL}/calendar/")
+    GMX_CALDAV_PASSWORD = os.getenv("GMX_KALENDER")
 
-    This demo showcases a LangChain agent with planning, memory, and custom tools.
+    # Simple in-memory agent state
+    agent_state: Dict[str, Any] = {
+        "emails_read": [],
+        "calendar_events": [],
+        "decisions": [],
+        "memory_history": []
+    }
+
+    mo.md("""
+    # 🤖 Agent Demo v2 (LangChain-free)
+
+    This demo keeps the original tools but avoids relying on LangChain
+    agent internals that may be removed in newer LangChain releases.
 
     **Features:**
     - 📧 Email reading tool
@@ -66,143 +90,76 @@ def _():
     - 💭 Decision tracking
     """)
     return (
-        AgentExecutor,
         BaseModel,
-        BaseTool,
         Calendar,
-        ChatOpenAI,
-        ChatPromptTemplate,
-        ConversationBufferMemory,
         Event,
         Field,
-        MessagesPlaceholder,
-        Type,
-        caldav,
-        create_openai_functions_agent,
-        datetime,
-        decode_header,
-        email,
-        imaplib,
-        mo,
-        os,
-        pytz,
-        timedelta,
-    )
-
-
-@app.cell
-def _(mo):
-    # Configuration section
-    mo.md("""
-    ## ⚙️ Configuration
-
-    Make sure you have set your `OPENAI_API_KEY` in a `.env` file.
-    """)
-    return
-
-
-@app.cell
-def _(mo, os):
-    # Check for API key
-    api_key = os.getenv("OPENAI_API_KEY")
-    if not api_key or api_key == "your_openai_api_key_here":
-        api_key_status = mo.md("""
-        ⚠️ **Warning:** Please set your `OPENAI_API_KEY` in a `.env` file.
-
-        Copy `.env.example` to `.env` and add your OpenAI API key.
-        """)
-    else:
-        api_key_status = mo.md("✅ API Key configured")
-
-    api_key_status
-    return
-
-
-@app.cell
-def _(os):
-    # GMX Email Configuration
-    GMX_EMAIL = "alois_wirth@gmx.de"
-    GMX_PASSWORD = os.getenv("GMX_PW")
-    GMX_IMAP_SERVER = "imap.gmx.net"
-    GMX_IMAP_PORT = 993
-
-    # GMX CalDAV Configuration
-    GMX_CALDAV_URL = f"https://caldav.gmx.net/begenda/dav/{GMX_EMAIL}/calendar/"
-    GMX_CALDAV_PASSWORD = os.getenv("GMX_KALENDER")  # App-specific password for calendar
-
-    # Global storage for agent state
-    agent_state = {
-        "decisions": [],
-        "calendar_events": [],
-        "emails_read": [],
-        "memory_history": []
-    }
-    return (
         GMX_CALDAV_PASSWORD,
         GMX_CALDAV_URL,
         GMX_EMAIL,
         GMX_IMAP_PORT,
         GMX_IMAP_SERVER,
         GMX_PASSWORD,
+        Type,
         agent_state,
+        caldav,
+        datetime,
+        decode_header,
+        email,
+        imaplib,
+        mo,
+        pytz,
+        re,
+        timedelta,
     )
 
 
 @app.cell
 def _(
     BaseModel,
-    BaseTool,
     Field,
     GMX_EMAIL,
     GMX_IMAP_PORT,
     GMX_IMAP_SERVER,
     GMX_PASSWORD,
     Type,
-    agent_state,
+    agent_state: "Dict[str, Any]",
     datetime,
     decode_header,
     email,
     imaplib,
 ):
-    # Tool 1: Email Reading Tool
-
+    # Email reading tool (keeps original behavior but does not inherit from langchain BaseTool)
     class EmailReadInput(BaseModel):
-        """Input for reading email."""
         count: int = Field(default=10, description="Number of recent emails to read (default: 10)")
 
-    class EmailReadTool(BaseTool):
+    class EmailReadTool:
         name: str = "read_email"
-        description: str = "Reads real emails from GMX account alois_wirth@gmx.de. Use this to retrieve recent email content. By default reads the last 10 emails."
+        description: str = (
+            "Reads real emails from GMX account. Use this to retrieve recent email content. "
+            "By default reads the last 10 emails."
+        )
         args_schema: Type[BaseModel] = EmailReadInput
 
         def _run(self, count: int = 10) -> str:
-            """Read real emails from GMX."""
             try:
-                # Connect to GMX IMAP server
                 mail = imaplib.IMAP4_SSL(GMX_IMAP_SERVER, GMX_IMAP_PORT)
                 mail.login(GMX_EMAIL, GMX_PASSWORD)
                 mail.select("INBOX")
 
-                # Search for all emails
                 status, messages = mail.search(None, "ALL")
                 email_ids = messages[0].split()
-
-                # Get the last 'count' emails
                 email_ids = email_ids[-count:]
 
                 result = f"📧 Reading last {len(email_ids)} emails from {GMX_EMAIL}\n\n"
                 result += "=" * 80 + "\n\n"
 
-                for email_id in reversed(email_ids):  # Most recent first
-                    # Fetch the email
+                for email_id in reversed(email_ids):
                     status, msg_data = mail.fetch(email_id, "(RFC822)")
-
                     for response_part in msg_data:
                         if isinstance(response_part, tuple):
                             msg = email.message_from_bytes(response_part[1])
-
-                            # Decode subject
-                            subject = msg["Subject"]
+                            subject = msg.get("Subject")
                             if subject:
                                 decoded_subject = decode_header(subject)[0]
                                 if isinstance(decoded_subject[0], bytes):
@@ -210,27 +167,20 @@ def _(
                                 else:
                                     subject = decoded_subject[0]
 
-                            # Get sender
                             from_addr = msg.get("From", "Unknown")
-
-                            # Get date
                             date = msg.get("Date", "Unknown")
 
-                            # Get body - improved extraction
                             body = ""
                             body_found = False
 
                             if msg.is_multipart():
-                                # Walk through all parts to find text content
                                 for part in msg.walk():
                                     content_type = part.get_content_type()
                                     content_disposition = str(part.get("Content-Disposition", ""))
 
-                                    # Skip attachments
                                     if "attachment" in content_disposition:
                                         continue
 
-                                    # Try text/plain first
                                     if content_type == "text/plain" and not body_found:
                                         try:
                                             payload = part.get_payload(decode=True)
@@ -242,22 +192,19 @@ def _(
                                         except Exception:
                                             pass
 
-                                    # Fallback to text/html if no text/plain found
                                     elif content_type == "text/html" and not body_found:
                                         try:
                                             payload = part.get_payload(decode=True)
                                             if payload:
                                                 charset = part.get_content_charset() or 'utf-8'
                                                 html_body = payload.decode(charset, errors='replace')
-                                                # Simple HTML tag removal
-                                                import re
-                                                body = re.sub('<[^<]+?>', '', html_body)
-                                                body = re.sub(r'\s+', ' ', body).strip()
+                                                import re as regex
+                                                body = regex.sub('<[^<]+?>', '', html_body)
+                                                body = regex.sub(r'\s+', ' ', body).strip()
                                                 body_found = True
                                         except Exception:
                                             pass
                             else:
-                                # Single-part message
                                 try:
                                     payload = msg.get_payload(decode=True)
                                     if payload:
@@ -274,7 +221,6 @@ def _(
                             if not body_found or not body:
                                 body = "[No readable content found]"
 
-                            # Limit body length for display
                             if len(body) > 500:
                                 body = body[:500] + "\n... (truncated)"
 
@@ -287,7 +233,6 @@ def _(
                 mail.close()
                 mail.logout()
 
-                # Record in agent state
                 agent_state["emails_read"].append({
                     "count": count,
                     "timestamp": str(datetime.now())
@@ -299,7 +244,6 @@ def _(
                 })
 
                 return result
-
             except Exception as e:
                 error_msg = f"❌ Error reading emails: {str(e)}\n\nPlease check your GMX credentials and internet connection."
                 agent_state["decisions"].append({
@@ -310,7 +254,6 @@ def _(
                 return error_msg
 
         async def _arun(self, count: int = 10) -> str:
-            """Async version."""
             return self._run(count)
 
     email_tool = EmailReadTool()
@@ -320,7 +263,6 @@ def _(
 @app.cell
 def _(
     BaseModel,
-    BaseTool,
     Calendar,
     Event,
     Field,
@@ -328,62 +270,49 @@ def _(
     GMX_CALDAV_URL,
     GMX_EMAIL,
     Type,
-    agent_state,
+    agent_state: "Dict[str, Any]",
     caldav,
     datetime,
     pytz,
     timedelta,
 ):
-    # Tool 2: Calendar Event Creation Tool
-
+    # Calendar creation tool (keeps original behavior)
     class CalendarEventInput(BaseModel):
-        """Input for creating a calendar event."""
         title: str = Field(description="The title of the event")
         date: str = Field(description="The date of the event (e.g., 'December 20, 2025' or '2025-12-20')")
         time: str = Field(description="The time of the event (e.g., '6:00 PM' or '18:00')")
         location: str = Field(default="", description="The location of the event")
         description: str = Field(default="", description="Additional details about the event")
 
-    class CalendarEventTool(BaseTool):
+    class CalendarEventTool:
         name: str = "create_calendar_event"
-        description: str = "Creates a calendar event in GMX calendar with the provided details. Use this to add events to the user's GMX calendar."
+        description: str = "Creates a calendar event in GMX calendar with the provided details."
         args_schema: Type[BaseModel] = CalendarEventInput
 
         def _parse_datetime(self, date_str: str, time_str: str) -> datetime:
-            """Parse date and time strings into datetime object."""
-            from dateutil import parser
-
-            # Try to parse the date
             try:
-                # Combine date and time
+                from dateutil import parser
                 datetime_str = f"{date_str} {time_str}"
                 dt = parser.parse(datetime_str)
-
-                # Make timezone aware (use local timezone)
                 if dt.tzinfo is None:
                     dt = pytz.timezone('Europe/Berlin').localize(dt)
-
                 return dt
-            except Exception as e:
-                # Fallback: use current date + 1 day at specified time
+            except Exception:
                 now = datetime.now(pytz.timezone('Europe/Berlin'))
                 try:
+                    from dateutil import parser
                     time_obj = parser.parse(time_str).time()
                     dt = datetime.combine(now.date() + timedelta(days=1), time_obj)
                     dt = pytz.timezone('Europe/Berlin').localize(dt)
                     return dt
-                except:
-                    # Last resort: 1 hour from now
+                except Exception:
                     return datetime.now(pytz.UTC) + timedelta(hours=1)
 
         def _run(self, title: str, date: str, time: str, location: str = "", description: str = "") -> str:
-            """Create a calendar event in GMX calendar."""
             try:
-                # Parse datetime
                 start_time = self._parse_datetime(date, time)
-                end_time = start_time + timedelta(hours=1)  # Default 1 hour duration
+                end_time = start_time + timedelta(hours=1)
 
-                # Try to connect to GMX CalDAV
                 try:
                     client = caldav.DAVClient(
                         url=GMX_CALDAV_URL,
@@ -393,7 +322,6 @@ def _(
                     principal = client.principal()
                     calendars = principal.calendars()
 
-                    # Find a writable calendar (skip birthday calendars)
                     calendar = None
                     for cal in calendars:
                         cal_name = cal.name if hasattr(cal, 'name') else ''
@@ -402,27 +330,20 @@ def _(
                             break
 
                     if not calendar and calendars:
-                        calendar = calendars[-1]  # Use last calendar as fallback
+                        calendar = calendars[-1]
 
                     if calendar:
-                        # Create iCalendar event with all required fields
                         cal = Calendar()
-
-                        # Add required calendar properties
-                        cal.add('prodid', '-//LangChain Agent Demo//CalDAV Client//EN')
+                        cal.add('prodid', '-//Agent Demo v2//CalDAV Client//EN')
                         cal.add('version', '2.0')
 
                         event = Event()
-
-                        # Generate unique UID (required)
                         import uuid
                         event.add('uid', str(uuid.uuid4()))
-
-                        # Add event properties
                         event.add('summary', title)
                         event.add('dtstart', start_time)
                         event.add('dtend', end_time)
-                        event.add('dtstamp', datetime.now(pytz.UTC))  # Required: timestamp of creation
+                        event.add('dtstamp', datetime.now(pytz.UTC))
 
                         if location:
                             event.add('location', location)
@@ -430,11 +351,8 @@ def _(
                             event.add('description', description)
 
                         cal.add_component(event)
-
-                        # Save to CalDAV server
                         calendar.save_event(cal.to_ical())
 
-                        # Also store locally
                         event_data = {
                             "title": title,
                             "date": date,
@@ -454,8 +372,28 @@ def _(
 
                         return f"✅ Calendar event created successfully in GMX calendar!\n\nEvent: {title}\nDate: {date}\nTime: {time}\nLocation: {location}\n\n🔗 Synced to your GMX calendar."
 
+                    # If no calendar found but no exception occurred, fall back to storing locally
+                    event_data = {
+                        "title": title,
+                        "date": date,
+                        "time": time,
+                        "location": location,
+                        "description": description,
+                        "created_at": str(datetime.now()),
+                        "synced_to_gmx": False,
+                        "sync_error": "No writable calendar found"
+                    }
+                    agent_state["calendar_events"].append(event_data)
+
+                    agent_state["decisions"].append({
+                        "action": "create_calendar_event_local",
+                        "reasoning": f"Created event locally (no calendar available): {title} on {date} at {time}",
+                        "timestamp": str(datetime.now())
+                    })
+
+                    return f"✅ Calendar event created locally!\n\nEvent: {title}\nDate: {date}\nTime: {time}\nLocation: {location}\n\n⚠️ Note: No writable calendar found on GMX. Event stored locally only."
+
                 except Exception as caldav_error:
-                    # CalDAV failed, store locally only
                     event_data = {
                         "title": title,
                         "date": date,
@@ -486,7 +424,6 @@ def _(
                 return error_msg
 
         async def _arun(self, title: str, date: str, time: str, location: str = "", description: str = "") -> str:
-            """Async version."""
             return self._run(title, date, time, location, description)
 
     calendar_tool = CalendarEventTool()
@@ -494,23 +431,14 @@ def _(
 
 
 @app.cell
-def _(BaseModel, BaseTool, Type, agent_state):
-    # Tool 3: Decision Display Tool
-
-    class DecisionDisplayInput(BaseModel):
-        """Input for displaying decisions."""
-        pass
-
-    class DecisionDisplayTool(BaseTool):
+def _(agent_state: "Dict[str, Any]"):
+    class DecisionDisplayTool:
         name: str = "show_decisions"
-        description: str = "Displays all decisions and reasoning steps taken by the agent so far. Use this to show the agent's thought process."
-        args_schema: Type[BaseModel] = DecisionDisplayInput
+        description: str = "Displays all decisions and reasoning steps taken by the agent so far."
 
         def _run(self) -> str:
-            """Display all decisions."""
             if not agent_state["decisions"]:
                 return "No decisions recorded yet."
-
             output = "🧠 Agent Decisions and Reasoning:\n\n"
             for i, decision in enumerate(agent_state["decisions"], 1):
                 output += f"{i}. Action: {decision['action']}\n"
@@ -519,7 +447,6 @@ def _(BaseModel, BaseTool, Type, agent_state):
             return output
 
         async def _arun(self) -> str:
-            """Async version."""
             return self._run()
 
     decision_tool = DecisionDisplayTool()
@@ -527,31 +454,22 @@ def _(BaseModel, BaseTool, Type, agent_state):
 
 
 @app.cell
-def _(BaseModel, BaseTool, Type, agent_state):
-    # Tool 4: Memory Display Tool
-
-    class MemoryDisplayInput(BaseModel):
-        """Input for displaying memory."""
-        pass
-
-    class MemoryDisplayTool(BaseTool):
+def _(agent_state: "Dict[str, Any]"):
+    class MemoryDisplayTool:
         name: str = "show_memory"
-        description: str = "Displays the conversation memory/history. Use this to show what the agent remembers from previous interactions."
-        args_schema: Type[BaseModel] = MemoryDisplayInput
+        description: str = "Displays the conversation memory/history."
 
         def _run(self) -> str:
-            """Display conversation memory."""
             if not agent_state["memory_history"]:
                 return "No conversation history yet."
-
             output = "💭 Conversation Memory:\n\n"
             for i, entry in enumerate(agent_state["memory_history"], 1):
-                output += f"{i}. {entry['role']}: {entry['content'][:100]}...\n"
+                content_preview = entry['content'][:100] + ("..." if len(entry['content'])>100 else "")
+                output += f"{i}. {entry['role']}: {content_preview}\n"
                 output += f"   Time: {entry['timestamp']}\n\n"
             return output
 
         async def _arun(self) -> str:
-            """Async version."""
             return self._run()
 
     memory_tool = MemoryDisplayTool()
@@ -559,38 +477,20 @@ def _(BaseModel, BaseTool, Type, agent_state):
 
 
 @app.cell
-def _(
-    BaseModel,
-    BaseTool,
-    Type,
-    calendar_tool,
-    decision_tool,
-    email_tool,
-    memory_tool,
-):
-    # Tool 5: Tools Display Tool
-
-    class ToolsDisplayInput(BaseModel):
-        """Input for displaying available tools."""
-        pass
-
-    class ToolsDisplayTool(BaseTool):
+def _(calendar_tool, decision_tool, email_tool, memory_tool):
+    class ToolsDisplayTool:
         name: str = "show_tools"
-        description: str = "Displays all available tools and their descriptions. Use this to show what capabilities the agent has."
-        args_schema: Type[BaseModel] = ToolsDisplayInput
+        description: str = "Displays all available tools and their descriptions."
 
         def _run(self) -> str:
-            """Display all available tools."""
             tools_list = [email_tool, calendar_tool, decision_tool, memory_tool]
-
             output = "🔧 Available Tools:\n\n"
             for i, tool in enumerate(tools_list, 1):
-                output += f"{i}. **{tool.name}**\n"
+                output += f"{i}. {tool.name}\n"
                 output += f"   Description: {tool.description}\n\n"
             return output
 
         async def _arun(self) -> str:
-            """Async version."""
             return self._run()
 
     tools_display_tool = ToolsDisplayTool()
@@ -598,103 +498,25 @@ def _(
 
 
 @app.cell
-def _(
-    AgentExecutor,
-    ChatOpenAI,
-    ChatPromptTemplate,
-    ConversationBufferMemory,
-    MessagesPlaceholder,
-    calendar_tool,
-    create_openai_functions_agent,
-    decision_tool,
-    email_tool,
-    memory_tool,
-    os,
-    tools_display_tool,
-):
-    # Initialize LLM
-    llm = ChatOpenAI(
-        model=os.getenv("OPENAI_MODEL", "gpt-4o-mini"),
-        temperature=0.7
-    )
-
-    # Combine all tools
-    tools = [
-        email_tool,
-        calendar_tool,
-        decision_tool,
-        memory_tool,
-        tools_display_tool
-    ]
-
-    # Create memory
-    memory = ConversationBufferMemory(
-        memory_key="chat_history",
-        return_messages=True
-    )
-
-    # Create prompt template
-    prompt = ChatPromptTemplate.from_messages([
-        ("system", """You are a helpful AI assistant with access to tools for managing emails and calendar events.
-
-    You have the following capabilities:
-    1. Read real emails from GMX account (alois_wirth@gmx.de) using the read_email tool
-    2. Create calendar events using the create_calendar_event tool
-    3. Show your decision-making process using the show_decisions tool
-    4. Display conversation memory using the show_memory tool
-    5. List available tools using the show_tools tool
-
-    When a user asks you to do something:
-    1. Think about what tools you need to use
-    2. Use the tools in a logical order
-    3. Provide clear feedback about what you're doing
-
-    Be proactive and helpful. If you read an email with event details, offer to create a calendar entry for it.
-
-    By default, read_email fetches the last 10 emails unless the user specifies a different number."""),
-        MessagesPlaceholder(variable_name="chat_history"),
-        ("human", "{input}"),
-        MessagesPlaceholder(variable_name="agent_scratchpad"),
-    ])
-
-    # Create agent
-    agent = create_openai_functions_agent(llm, tools, prompt)
-
-    # Create agent executor
-    agent_executor = AgentExecutor(
-        agent=agent,
-        tools=tools,
-        memory=memory,
-        verbose=True,
-        handle_parsing_errors=True,
-        max_iterations=10
-    )
-    return (agent_executor,)
-
-
-@app.cell
 def _(mo):
     mo.md("""
     ## 💬 Chat with the Agent
 
-    **💡 Tip:** Double-Click inside the text area before typing to avoid triggering marimo keyboard shortcuts.
+    Type plain language commands like "Read my email" or use the quick structured
+    commands to guarantee action:
 
-    Try these example prompts:
-    - "Read my email"
-    - "Create a calendar event for the birthday party"
-    - "Show me your decision-making process"
-    - "What tools do you have available?"
-    - "Show me the conversation history"
+    - read_email|<count>  (e.g. read_email|5)
+    - create_event|Title|YYYY-MM-DD|HH:MM|Location|Description
+
+    The small dispatcher below will map your message to tool calls.
     """)
     return
 
 
 @app.cell
 def _(mo):
-    # Create a form that properly handles submission in marimo
-    # Using mo.ui.form ensures the button click triggers reactivity
     chat_input = mo.ui.text_area(
-        placeholder="Ask the agent something... (e.g., 'Read my email and create a calendar event')",
+        placeholder="Ask the agent something... (e.g., 'Read my email' or 'create_event|...')",
         label="Your message:",
         full_width=True
     )
@@ -709,7 +531,6 @@ def _(mo):
 
 @app.cell
 def _(chat_form, mo):
-    # Diagnostic cell to output form value
     mo.md(f"""
     ### 🔍 Debug: Form Value
 
@@ -723,70 +544,115 @@ def _(chat_form, mo):
 
 
 @app.cell
-def _(agent_executor, agent_state, chat_form, datetime, mo):
-    # Process user input and display response
+def _(
+    agent_state: "Dict[str, Any]",
+    calendar_tool,
+    chat_form,
+    datetime,
+    decision_tool,
+    email_tool,
+    memory_tool,
+    mo,
+    re,
+    tools_display_tool,
+):
     import traceback
 
-    # Initialize default response
     response_output = mo.md("*Submit a message to see the agent's response*")
-    result = None
-    response_text = ""
 
-    # Get the user input value from the form
-    # When form is submitted, chat_form.value contains the text area value directly
     user_message = chat_form.value if chat_form.value is not None else ""
 
-    # Check if form was submitted and there's input
     if user_message:
-        # Record in memory history
         agent_state["memory_history"].append({
             "role": "Human",
             "content": user_message,
             "timestamp": str(datetime.now())
         })
 
-        # Run the agent
         try:
-            result = agent_executor.invoke({"input": user_message})
-            response_text = result.get("output", "No response generated.")
+            text = user_message.strip().lower()
 
-            # Record agent response in memory history
-            agent_state["memory_history"].append({
-                "role": "AI",
-                "content": response_text,
-                "timestamp": str(datetime.now())
-            })
+            # Structured: read_email|N
+            if text.startswith("read_email|"):
+                try:
+                    count = int(user_message.split("|", 1)[1])
+                except Exception:
+                    count = 10
+                result = email_tool._run(count=count)
+                agent_state["memory_history"].append({"role": "AI", "content": result, "timestamp": str(datetime.now())})
+                response_output = mo.md(f"### 🤖 Agent Response:\n\n{result}")
 
-            response_output = mo.md(f"""
-            ### 🤖 Agent Response:
+            # Structured: create_event|Title|date|time|location|description
+            elif text.startswith("create_event|"):
+                parts = user_message.split("|")
+                if len(parts) >= 4:
+                    title = parts[1].strip()
+                    date = parts[2].strip()
+                    time = parts[3].strip()
+                    location = parts[4].strip() if len(parts) > 4 else ""
+                    description = parts[5].strip() if len(parts) > 5 else ""
+                    result = calendar_tool._run(title=title, date=date, time=time, location=location, description=description)
+                    agent_state["memory_history"].append({"role": "AI", "content": result, "timestamp": str(datetime.now())})
+                    response_output = mo.md(f"### 🤖 Agent Response:\n\n{result}")
+                else:
+                    msg = ("To create an event, use the structured form:\n"
+                           "create_event|Title|YYYY-MM-DD|HH:MM|Location|Description")
+                    response_output = mo.md(msg)
 
-            {response_text}
-            """)
+            # Intent: create in plain language -> ask for structured command
+            elif any(k in text for k in ("create event", "create calendar", "add event", "schedule")):
+                msg = ("I can create a calendar event for you. Please provide details in this structured format:\n"
+                       "create_event|Title|YYYY-MM-DD|HH:MM|Location|Description\n\n"
+                       "Example: create_event|Birthday Party|2025-12-20|18:00|My House|Bring cake")
+                response_output = mo.md(msg)
+
+            # Read email in plain language
+            elif any(k in text for k in ("read my email", "read email", "emails")):
+                # try to extract a number like "last 5 emails"
+                m = re.search(r"(\d+)", user_message)
+                count = int(m.group(1)) if m else 10
+                result = email_tool._run(count=count)
+                agent_state["memory_history"].append({"role": "AI", "content": result, "timestamp": str(datetime.now())})
+                response_output = mo.md(f"### 🤖 Agent Response:\n\n{result}")
+
+            # Show decisions
+            elif any(k in text for k in ("show decisions", "decisions")):
+                result = decision_tool._run()
+                response_output = mo.md(f"### �� Agent Response:\n\n{result}")
+
+            # Show memory
+            elif any(k in text for k in ("show memory", "conversation history", "history")):
+                result = memory_tool._run()
+                response_output = mo.md(f"### 🤖 Agent Response:\n\n{result}")
+
+            # Show tools
+            elif any(k in text for k in ("what tools", "show tools", "tools")):
+                result = tools_display_tool._run()
+                response_output = mo.md(f"### 🤖 Agent Response:\n\n{result}")
+
+            else:
+                # Fallback: simple canned reply encouraging supported commands
+                fallback = (
+                    "I didn't fully understand. Try one of the supported commands:\n"
+                    "- read_email|5  (reads last 5 emails)\n"
+                    "- create_event|Title|YYYY-MM-DD|HH:MM|Location|Description\n"
+                    "- show_decisions\n"
+                    "- show_memory\n"
+                    "- show_tools\n\n"
+                    "Or ask clearly: 'Read my email' or 'Create a calendar event'."
+                )
+                response_output = mo.md(f"### 🤖 Agent Response:\n\n{fallback}")
+
         except Exception as e:
-            error_details = traceback.format_exc()
-            response_output = mo.md(f"""
-            ### ❌ Error:
-
-            {str(e)}
-
-            <details>
-            <summary>Error details</summary>
-
-            ```
-            {error_details}
-            ```
-            </details>
-
-            Please check your API key and try again.
-            """)
+            tb = traceback.format_exc()
+            response_output = mo.md(f"### ❌ Error:\n\n{str(e)}\n\n<details>\n<summary>Error details</summary>\n\n```\n{tb}\n```\n</details>")
 
     response_output
     return
 
 
 @app.cell
-def _(agent_state, mo):
-    # Display current state
+def _(agent_state: "Dict[str, Any]", mo):
     mo.md(f"""
     ## 📊 Current State
 
@@ -799,20 +665,11 @@ def _(agent_state, mo):
 
 
 @app.cell
-def _(agent_state, mo):
-    # Display calendar events if any
+def _(agent_state: "Dict[str, Any]", mo):
     if agent_state["calendar_events"]:
         events_md = "## 📅 Calendar Events\n\n"
         for event in agent_state["calendar_events"]:
-            events_md += f"""
-    **{event['title']}**
-    - Date: {event['date']}
-    - Time: {event['time']}
-    - Location: {event['location']}
-    - Created: {event['created_at']}
-
-    ---
-    """
+            events_md += f"**{event['title']}**\n- Date: {event['date']}\n- Time: {event['time']}\n- Location: {event['location']}\n- Created: {event['created_at']}\n\n---\n\n"
         calendar_display = mo.md(events_md)
     else:
         calendar_display = mo.md("*No calendar events created yet*")
@@ -826,12 +683,11 @@ def _(mo):
     mo.md("""
     ## 🎯 Demo Instructions
 
-    1. **Start simple:** Ask the agent to "Read my email"
-    2. **Create an event:** Ask it to "Create a calendar event for the birthday party"
-    3. **Inspect internals:** Try "Show me your decisions" or "Show me the conversation history"
-    4. **Explore tools:** Ask "What tools do you have?"
+    Use the quick structured commands for predictable results:
+    - read_email|<count>
+    - create_event|Title|YYYY-MM-DD|HH:MM|Location|Description
 
-    The agent will use its planning capabilities to decide which tools to use and in what order!
+    Or type plain language requests such as "Read my email".
     """)
     return
 
