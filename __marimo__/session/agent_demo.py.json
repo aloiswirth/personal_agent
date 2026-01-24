@@ -1,7 +1,7 @@
 {
   "version": "1",
   "metadata": {
-    "marimo_version": "0.19.2"
+    "marimo_version": "0.19.6"
   },
   "cells": [
     {
@@ -50,7 +50,7 @@
         {
           "type": "error",
           "ename": "exception",
-          "evalue": "cannot import name 'AgentExecutor' from 'langchain.agents' (/home/alois/.cache/uv/archive-v0/Bh0zmlK1WoxPA-6xcoMtI/lib/python3.14/site-packages/langchain/agents/__init__.py)",
+          "evalue": "cannot import name 'AgentExecutor' from 'langchain.agents' (/home/alois/.cache/uv/archive-v0/AoAAUwBWVdZ2wA61YOB0b/lib/python3.14/site-packages/langchain/agents/__init__.py)",
           "traceback": []
         }
       ],
@@ -58,13 +58,13 @@
         {
           "type": "stream",
           "name": "stderr",
-          "text": "/home/alois/.cache/uv/archive-v0/Bh0zmlK1WoxPA-6xcoMtI/lib/python3.14/site-packages/langchain_core/_api/deprecation.py:26: UserWarning: Core Pydantic V1 functionality isn't compatible with Python 3.14 or greater.\n  from pydantic.v1.fields import FieldInfo as FieldInfoV1\n",
+          "text": "/home/alois/.cache/uv/archive-v0/AoAAUwBWVdZ2wA61YOB0b/lib/python3.14/site-packages/langchain_core/_api/deprecation.py:26: UserWarning: Core Pydantic V1 functionality isn't compatible with Python 3.14 or greater.\n  from pydantic.v1.fields import FieldInfo as FieldInfoV1\n",
           "mimetype": "text/plain"
         },
         {
           "type": "stream",
           "name": "stderr",
-          "text": "<span class=\"codehilite\"><div class=\"highlight\"><pre><span></span><span class=\"gt\">Traceback (most recent call last):</span>\n  File <span class=\"nb\">&quot;/tmp/marimo_128570/__marimo__cell_Hbol_.py&quot;</span>, line <span class=\"m\">14</span>, in <span class=\"n\">&lt;module&gt;</span>\n<span class=\"w\">    </span><span class=\"kn\">from</span><span class=\"w\"> </span><span class=\"nn\">langchain.agents</span><span class=\"w\"> </span><span class=\"kn\">import</span> <span class=\"n\">AgentExecutor</span><span class=\"p\">,</span> <span class=\"n\">create_openai_functions_agent</span>\n<span class=\"gr\">ImportError</span>: <span class=\"n\">cannot import name &#39;AgentExecutor&#39; from &#39;langchain.agents&#39; (/home/alois/.cache/uv/archive-v0/Bh0zmlK1WoxPA-6xcoMtI/lib/python3.14/site-packages/langchain/agents/__init__.py)</span>\n</pre></div>\n</span>",
+          "text": "<span class=\"codehilite\"><div class=\"highlight\"><pre><span></span><span class=\"gt\">Traceback (most recent call last):</span>\n  File <span class=\"nb\">&quot;/tmp/marimo_71906/__marimo__cell_Hbol_.py&quot;</span>, line <span class=\"m\">14</span>, in <span class=\"n\">&lt;module&gt;</span>\n<span class=\"w\">    </span><span class=\"kn\">from</span><span class=\"w\"> </span><span class=\"nn\">langchain.agents</span><span class=\"w\"> </span><span class=\"kn\">import</span> <span class=\"n\">AgentExecutor</span><span class=\"p\">,</span> <span class=\"n\">create_openai_functions_agent</span>\n<span class=\"gr\">ImportError</span>: <span class=\"n\">cannot import name &#39;AgentExecutor&#39; from &#39;langchain.agents&#39; (/home/alois/.cache/uv/archive-v0/AoAAUwBWVdZ2wA61YOB0b/lib/python3.14/site-packages/langchain/agents/__init__.py)</span>\n</pre></div>\n</span>",
           "mimetype": "application/vnd.marimo+traceback"
         }
       ]

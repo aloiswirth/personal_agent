@@ -1,0 +1,242 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.19.6"
+  },
+  "cells": [
+    {
+      "id": "Hbol",
+      "code_hash": "d87d059d254bc87c26496317d14f2c79",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"langgraph-agent-demo\">\ud83e\udd16 LangGraph Agent Demo</h1>\n<span class=\"paragraph\">This demo showcases a LangGraph agent with planning, memory, and custom tools.</span>\n<span class=\"paragraph\"><strong>Features:</strong></span>\n<ul>\n<li>\ud83d\udce7 Email reading tool</li>\n<li>\ud83d\udcc5 Calendar event creation tool</li>\n<li>\ud83e\udde0 Memory display tool</li>\n<li>\ud83d\udd27 Tools introspection</li>\n<li>\ud83d\udcad Decision tracking</li>\n</ul></span>"
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "/home/alois/.cache/uv/builds-v0/.tmpYNd73v/lib/python3.14/site-packages/langchain_core/_api/deprecation.py:26: UserWarning: Core Pydantic V1 functionality isn't compatible with Python 3.14 or greater.\n  from pydantic.v1.fields import FieldInfo as FieldInfoV1\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "d8cbdfbfa43274671015507827560dfe",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "9fbc4cce10a82bd60c968d8feaba4704",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">\u2705 API Key configured</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "e14983f0c5e1d7202e3ce7ff2f1a3786",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "5fd2f76a00ad4013bbf98ffe0ee0b1e2",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "0e3d98992574ec629e014cfc2bd25ddb",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Xref",
+      "code_hash": "1004f9ee621c0fe0a296623f3efe86c1",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "b17fdd306b332ced6a50cfbf869d6ad6",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "779f70454a943dd7547b1f0fcfd8c344",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "/tmp/marimo_143097/__marimo__cell_BYtC_.py:35: LangGraphDeprecatedSinceV10: create_react_agent has been moved to `langchain.agents`. Please update your import to `from langchain.agents import create_agent`. Deprecated in LangGraph V1.0 to be removed in V2.0.\n  agent = create_react_agent(\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "Hstk",
+      "code_hash": "686a9caa6c372ec1c4093a502e9917b6",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"current-state\">\ud83d\udcca Current State</h2>\n<ul>\n<li><strong>Emails Read:</strong> 0</li>\n<li><strong>Calendar Events:</strong> 0</li>\n<li><strong>Decisions Made:</strong> 0</li>\n</ul></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "nWHF",
+      "code_hash": "0c130e73109837575afffcd2b61721da",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><em>No calendar events created yet</em></span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "iLit",
+      "code_hash": "b4deebcf06a20fcc3d07f65bdeb21dfc",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><em>No decisions recorded yet</em></span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "LJEt",
+      "code_hash": null,
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "RGSE",
+      "code_hash": "70bf8a65915113e986f4c2702b20fca2",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"chat-with-the-agent\">\ud83d\udcac Chat with the Agent</h2>\n<span class=\"paragraph\"><strong>\ud83d\udca1 Tip:</strong> Double-Click inside the text area before typing.</span>\n<span class=\"paragraph\">Try these example prompts:</span>\n<ul>\n<li>\"Read my email\"</li>\n<li>\"Create a calendar event for dinner tomorrow at 7pm\"</li>\n<li>\"Show me your decision-making process\"</li>\n<li>\"What tools do you have available?\"</li>\n<li>\"Show me the conversation history\"</li>\n</ul></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Kclp",
+      "code_hash": "ec7f8f6cc7f9174b652def8ab7a24dbd",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='Kclp-2' random-id='f43bbc8c-79d6-ec29-4c9d-fd52101d6fdf'><marimo-form data-initial-value='null' data-label='null' data-element-id='&quot;Kclp-1&quot;' data-loading='false' data-bordered='true' data-submit-button-label='&quot;Send&quot;' data-submit-button-disabled='false' data-clear-on-submit='false' data-show-clear-button='false' data-clear-button-label='&quot;Clear&quot;' data-should-validate='false'><marimo-ui-element object-id='Kclp-1' random-id='d7bc9ab2-8e19-7895-90e9-6c9926f31390'><marimo-text-area data-initial-value='&quot;&quot;' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;Your message:&lt;/span&gt;&lt;/span&gt;&quot;' data-placeholder='&quot;Ask the agent something... (e.g., &#x27;Read my email&#x27;)&quot;' data-disabled='false' data-debounce='true' data-full-width='true'></marimo-text-area></marimo-ui-element></marimo-form></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ocox",
+      "code_hash": null,
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "WjsO",
+      "code_hash": "fad5b640d034bb2b53877f880135387a",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"answers-from-the-llm\">Answers from the LLM</h2></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "emfo",
+      "code_hash": "fffd61cc9b161ce033ed9d3e1afcb280",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><div class=\"language-text highlight\"><pre><span></span><code>    ### \ud83e\udd16 Agent Response:\n\n    I have reviewed your last 10 emails. Here&#39;s a categorization based on their content:\n</code></pre></div>\n<ol>\n<li>\n<span class=\"paragraph\"><strong>Receipts/Invoices</strong>:</span>\n<ul>\n<li><strong>From</strong>: Anthropic, PBC</li>\n<li><strong>Subject</strong>: Your receipt from Anthropic, PBC #2809-4640-2871</li>\n<li><strong>Details</strong>: Includes a receipt for a payment of $11.90.</li>\n</ul>\n</li>\n<li>\n<span class=\"paragraph\"><strong>Account Security/Verification</strong>:</span>\n<ul>\n<li><strong>From</strong>: GitHub</li>\n<li><strong>Subject</strong>: [GitHub] A third-party OAuth application has been added to your account</li>\n<li><strong>Details</strong>: Notification about a third-party application authorized for your account.</li>\n<li><strong>From</strong>: Cline</li>\n<li><strong>Subject</strong>: Best\u00e4tigen</li>\n<li><strong>Details</strong>: Email verification request.</li>\n</ul>\n</li>\n<li>\n<span class=\"paragraph\"><strong>Social/Community</strong>:</span>\n<ul>\n<li><strong>From</strong>: Quora Digest</li>\n<li><strong>Subject</strong>: Hat eine Dir bekannte Person schon einmal abrupt den Kontakt zu Dir abgebrochen?</li>\n<li><strong>Details</strong>: Digest with community questions.</li>\n<li><strong>From</strong>: Medium Daily Digest</li>\n<li><strong>Subject</strong>: This Tool Gained 30K GitHub Stars in One</li>\n<li><strong>Details</strong>: Highlights from Medium articles.</li>\n</ul>\n</li>\n<li>\n<span class=\"paragraph\"><strong>Newsletters/Updates</strong>:</span>\n<ul>\n<li><strong>From</strong>: Was jetzt? von DIE ZEIT</li>\n<li><strong>Subject</strong>: Nur gute Nachrichten und Inspirierendes zum Wochenende</li>\n<li><strong>Details</strong>: Weekend newsletter with positive news.</li>\n<li><strong>From</strong>: Azul Fidelidade</li>\n<li><strong>Subject</strong>: Traga os seus pontos para o Azul Fidelidade \ud83d\udc99</li>\n<li><strong>Details</strong>: Newsletter about loyalty points and travel.</li>\n</ul>\n</li>\n<li>\n<span class=\"paragraph\"><strong>Personal</strong>:</span>\n<ul>\n<li><strong>From</strong>: Alois Wirth</li>\n<li><strong>Subject</strong>: Abendessen</li>\n<li><strong>Details</strong>: Personal message about a dinner invitation.</li>\n</ul>\n</li>\n<li>\n<span class=\"paragraph\"><strong>Subscription Management</strong>:</span>\n<ul>\n<li><strong>From</strong>: Atlassian</li>\n<li><strong>Subject</strong>: You\u2019re now on Service Collection Free plan</li>\n<li><strong>Details</strong>: Notification about subscription changes.</li>\n</ul>\n</li>\n</ol>\n<span class=\"paragraph\">Let me know if you need any further actions regarding these emails!</span></span>"
+          }
+        }
+      ],
+      "console": []
+    }
+  ]
+}

@@ -1,0 +1,215 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.19.6"
+  },
+  "cells": [
+    {
+      "id": "Hbol",
+      "code_hash": "d6c25ca24c3f0e94ea294906968f2aea",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"agent-demo-v2-langchain-free\">\ud83e\udd16 Agent Demo v2 (LangChain-free)</h1>\n<span class=\"paragraph\">This demo keeps the original tools but avoids relying on LangChain\nagent internals that may be removed in newer LangChain releases.</span>\n<span class=\"paragraph\"><strong>Features:</strong></span>\n<ul>\n<li>\ud83d\udce7 Email reading tool</li>\n<li>\ud83d\udcc5 Calendar event creation tool</li>\n<li>\ud83e\udde0 Memory display tool</li>\n<li>\ud83d\udd27 Tools introspection</li>\n<li>\ud83d\udcad Decision tracking</li>\n</ul></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "oEcU",
+      "code_hash": "a163f60794468d40b20fa098b1b30972",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"setup-of-classes-and-tools\">Setup of Classes and Tools</h1></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "ad370d7c722f585dd1690e526004570e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "9dddeea3739aa696f44e6ca66b0cb755",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "30c1e3dfa2b3ee50da9fdf79ae2dedd5",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "31a149fcf33ff7b36dff3e50a80e4322",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "a1e40b6e509f3c3759d7a361d62b17f7",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Xref",
+      "code_hash": "b72becaaf0d8422be485303eead18510",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"chat-with-the-agent\">\ud83d\udcac Chat with the Agent</h2>\n<span class=\"paragraph\">Type plain language commands like \"Read my email\" or use the quick structured\ncommands to guarantee action:</span>\n<ul>\n<li>read_email|<count>  (e.g. read_email|5)</li>\n<li>create_event|Title|YYYY-MM-DD|HH:MM|Location|Description</li>\n</ul>\n<span class=\"paragraph\">The small dispatcher below will map your message to tool calls.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "a63db56689972d8b411e7c8add479db2",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='SFPL-2' random-id='821c18f8-862c-dccf-d416-8e999f034205'><marimo-form data-initial-value='null' data-label='null' data-element-id='&quot;SFPL-1&quot;' data-loading='false' data-bordered='true' data-submit-button-label='&quot;Send&quot;' data-submit-button-disabled='false' data-clear-on-submit='false' data-show-clear-button='false' data-clear-button-label='&quot;Clear&quot;' data-should-validate='false'><marimo-ui-element object-id='SFPL-1' random-id='d68759fa-387b-e690-6541-b39c4223d00c'><marimo-text-area data-initial-value='&quot;&quot;' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;Your message:&lt;/span&gt;&lt;/span&gt;&quot;' data-placeholder='&quot;Ask the agent something... (e.g., &#x27;Read my email&#x27; or &#x27;create_event|...&#x27;)&quot;' data-disabled='false' data-debounce='true' data-full-width='true'></marimo-text-area></marimo-ui-element></marimo-form></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "gROa",
+      "code_hash": null,
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "VKjl",
+      "code_hash": null,
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "eIrS",
+      "code_hash": "4ab288651310d696b780a8ed7bcbb071",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"llm-answer\">LLM Answer</h1></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "RGSE",
+      "code_hash": "724cc25e55e12da9f97ac75347d4e9a7",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h3 id=\"agent-response\">\ud83e\udd16 Agent Response:</h3>\n<span class=\"paragraph\">I didn't fully understand. Try one of the supported commands:</span>\n<ul>\n<li>read_email|5  (reads last 5 emails)</li>\n<li>create_event|Title|YYYY-MM-DD|HH:MM|Location|Description</li>\n<li>show_decisions</li>\n<li>show_memory</li>\n<li>show_tools</li>\n</ul>\n<span class=\"paragraph\">Or ask clearly: 'Read my email' or 'Create a calendar event'.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Kclp",
+      "code_hash": "831593b965306e550579270e3907d79f",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"current-state\">\ud83d\udcca Current State</h2>\n<ul>\n<li><strong>Emails Read:</strong> 0</li>\n<li><strong>Calendar Events:</strong> 0</li>\n<li><strong>Decisions Made:</strong> 0</li>\n<li><strong>Conversation Turns:</strong> 0</li>\n</ul></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "emfo",
+      "code_hash": "59ff4a933a862a412c3e9b463cca4484",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><em>No calendar events created yet</em></span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Hstk",
+      "code_hash": "aafa7781deb9027a6abf65ecd2eab6ad",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"demo-instructions\">\ud83c\udfaf Demo Instructions</h2>\n<span class=\"paragraph\">Use the quick structured commands for predictable results:</span>\n<ul>\n<li>read_email|<count></li>\n<li>create_event|Title|YYYY-MM-DD|HH:MM|Location|Description</li>\n</ul>\n<span class=\"paragraph\">Or type plain language requests such as \"Read my email\".</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "8dd348b1b739c2f507f0031bc7e9d662",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h3 id=\"debug-form-value\">\ud83d\udd0d Debug: Form Value</h3>\n<span class=\"paragraph\"><strong>chat_form.value:</strong> <code>'Read the last email and create an entry in my calendar\\n'</code></span>\n<span class=\"paragraph\"><strong>Type:</strong> <code>&lt;class 'str'&gt;</code></span>\n<span class=\"paragraph\"><strong>Is submitted:</strong> <code>True</code></span></span>"
+          }
+        }
+      ],
+      "console": []
+    }
+  ]
+}

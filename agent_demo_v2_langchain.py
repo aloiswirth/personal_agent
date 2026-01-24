@@ -4,6 +4,7 @@
 #     "caldav==2.2.3",
 #     "icalendar==6.3.2",
 #     "marimo>=0.19.0",
+#     "mcp==1.25.0",
 #     "pydantic==2.12.5",
 #     "python-dotenv==1.2.1",
 #     "pytz==2025.2",
@@ -13,11 +14,11 @@
 
 import marimo
 
-__generated_with = "0.19.2"
-app = marimo.App(width="full")
+__generated_with = "0.19.6"
+app = marimo.App(width="columns")
 
 
-@app.cell
+@app.cell(column=0)
 def _():
     """LangChain-free Agent Demo v2 with Marimo
 
@@ -112,6 +113,14 @@ def _():
         re,
         timedelta,
     )
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    # Setup of Classes and Tools
+    """)
+    return
 
 
 @app.cell
@@ -497,7 +506,7 @@ def _(calendar_tool, decision_tool, email_tool, memory_tool):
     return (tools_display_tool,)
 
 
-@app.cell
+@app.cell(column=1)
 def _(mo):
     mo.md("""
     ## 💬 Chat with the Agent
@@ -530,15 +539,22 @@ def _(mo):
 
 
 @app.cell
-def _(chat_form, mo):
-    mo.md(f"""
-    ### 🔍 Debug: Form Value
+def _():
+    import sys
+    sys.version
 
-    **chat_form.value:** `{repr(chat_form.value)}`
+    return
 
-    **Type:** `{type(chat_form.value)}`
 
-    **Is submitted:** `{chat_form.value is not None}`
+@app.cell(column=2)
+def _():
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""
+    # LLM Answer
     """)
     return
 
@@ -688,6 +704,20 @@ def _(mo):
     - create_event|Title|YYYY-MM-DD|HH:MM|Location|Description
 
     Or type plain language requests such as "Read my email".
+    """)
+    return
+
+
+@app.cell
+def _(chat_form, mo):
+    mo.md(f"""
+    ### 🔍 Debug: Form Value
+
+    **chat_form.value:** `{repr(chat_form.value)}`
+
+    **Type:** `{type(chat_form.value)}`
+
+    **Is submitted:** `{chat_form.value is not None}`
     """)
     return
 
