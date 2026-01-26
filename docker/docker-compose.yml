@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+  agent:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: personal-agent
+    env_file:
+      - ../.env
+    volumes:
+      - ../data:/app/data
+      - ../src:/app/src:ro  # Mount source for development
+    depends_on:
+      - db
+      - redis
+    networks:
+      - agent-network
+    restart: unless-stopped
+
+  db:
+    image: postgres:16-alpine
+    container_name: personal-agent-db
+    environment:
+      POSTGRES_USER: agent
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-changeme}
+      POSTGRES_DB: personal_agent
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - agent-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U agent -d personal_agent"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: personal-agent-redis
+    volumes:
+      - redis_data:/data
+    networks:
+      - agent-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Optional: API service (uncomment when ready)
+  # api:
+  #   build:
+  #     context: ..
+  #     dockerfile: docker/Dockerfile
+  #   container_name: personal-agent-api
+  #   command: uvicorn src.api.main:app --host 0.0.0.0 --port 8000
+  #   env_file:
+  #     - ../.env
+  #   ports:
+  #     - "8000:8000"
+  #   depends_on:
+  #     - db
+  #     - redis
+  #   networks:
+  #     - agent-network
+  #   restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  agent-network:
+    driver: bridge
